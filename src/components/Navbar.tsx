@@ -33,10 +33,8 @@ export const menuItems: Menu[] = [
 ];
 
 export const Navbar = () => {
-  //   const router = useRouter();
-
   return (
-    <nav className="fixed top-0 w-full h-24 p-6 flex flex-row items-center justify-between">
+    <nav className="fixed top-0 w-full h-24 p-6 bg-white flex flex-row items-center justify-between z-999">
       <motion.h2
         initial={{ y: -100 }}
         animate={{ y: 0 }}
