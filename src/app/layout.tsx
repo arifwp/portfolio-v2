@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Instrument_Sans } from "next/font/google";
 import "./globals.css";
+import { CursorProvider } from "@/components/GlobalCursor";
+import { ContainerSmoothScroll } from "@/components/containers/ContainerSmoothScroll";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -19,15 +21,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body
         className={`${inter.variable} ${instrumentSans.variable} antialiased`}
       >
-        {children}
+        <CursorProvider>
+          <ContainerSmoothScroll>{children}</ContainerSmoothScroll>
+        </CursorProvider>
       </body>
     </html>
   );
