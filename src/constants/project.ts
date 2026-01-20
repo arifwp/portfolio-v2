@@ -7,6 +7,8 @@ export interface Project {
   id: number;
   slug: string;
   title: string;
+  role: string;
+  company: string;
   overview: string;
   description: string;
   image: string;
@@ -22,10 +24,13 @@ export const projects: Project[] = [
     id: 1,
     slug: "legal-plus",
     title: "Legal Plus",
+    role: "Full Stack Engineer",
+    company: "Legal Plus",
     overview: "Cloud-based legal practice management for Indonesian firms.",
     image:
       "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop",
-    description: "",
+    description:
+      "Obvious wallet, a self-custody crypto currency wallet app that aims to bring a more convenient and seamless way to transact and manage assets",
     liveSite: "https://legalplus.co.id/",
     period: "Jan 2026 - Present",
     keywords: [],
@@ -102,6 +107,8 @@ export const projects: Project[] = [
     id: 2,
     slug: "playfields",
     title: "Playfields",
+    role: "Full Stack Developer",
+    company: "Playfields",
     overview: "Multi-tenant SaaS for sports venue management.",
     image:
       "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&h=1080&fit=crop",
@@ -211,6 +218,8 @@ export const projects: Project[] = [
     id: 3,
     slug: "kubu-id",
     title: "Kubu.id",
+    role: "Full Stack Developer",
+    company: "Business Watch Indonesia",
     overview: "Community and job platform for professionals.",
     image:
       "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1920&h=1080&fit=crop",
@@ -332,6 +341,8 @@ export const projects: Project[] = [
     id: 4,
     slug: "bisnislink",
     title: "BisnisLink",
+    role: "Full Stack Developer",
+    company: "Business Watch Indonesia",
     overview:
       "The e-commerce platform connecting SME suppliers with verified resellers.",
     image:
