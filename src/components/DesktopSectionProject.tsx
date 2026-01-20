@@ -1,8 +1,9 @@
 import { projects } from "@/constants/project";
+import { useCursor } from "@/hooks/useCursor";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { Dispatch, RefObject, SetStateAction, useEffect } from "react";
-import { useCursor } from "./GlobalCursor";
 
 export const DesktopSectionProject = ({
   setActiveIndex,
@@ -47,19 +48,18 @@ export const DesktopSectionProject = ({
         }}
       >
         {projects.map((project) => (
-          <div
-            key={project.id}
-            className="relative w-full h-[calc(100vh-96px)]"
-          >
-            <Image
-              src={project.image}
-              alt={project.title}
-              fill
-              className="object-cover"
-              sizes="(min-width: 768px) 50vw, 100vw"
-              priority
-            />
-          </div>
+          <Link key={project.id} href={`project/${project.slug}`}>
+            <div className="relative w-full h-[calc(100vh-96px)]">
+              <Image
+                src={project.image}
+                alt={project.title}
+                fill
+                className="object-cover"
+                sizes="(min-width: 768px) 50vw, 100vw"
+                priority
+              />
+            </div>
+          </Link>
         ))}
       </motion.div>
     </div>
