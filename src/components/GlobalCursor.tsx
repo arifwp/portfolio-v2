@@ -1,41 +1,15 @@
 "use client";
 
-import { useEffect, useState, createContext, useContext } from "react";
+import { CursorVariant } from "@/hooks/useCursor";
 import {
+  AnimatePresence,
   motion,
   useMotionValue,
   useSpring,
-  AnimatePresence,
 } from "framer-motion";
+import { useEffect, useState } from "react";
 
-type CursorVariant = "default" | "project";
-
-interface CursorContextType {
-  setVariant: (variant: CursorVariant) => void;
-}
-
-const CursorContext = createContext<CursorContextType | undefined>(undefined);
-
-export const useCursor = () => {
-  const context = useContext(CursorContext);
-  if (!context) {
-    throw new Error("useCursor must be used within CursorProvider");
-  }
-  return context;
-};
-
-export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
-  const [variant, setVariant] = useState<CursorVariant>("default");
-
-  return (
-    <CursorContext.Provider value={{ setVariant }}>
-      {children}
-      <GlobalCursor variant={variant} />
-    </CursorContext.Provider>
-  );
-};
-
-const GlobalCursor = ({ variant }: { variant: CursorVariant }) => {
+export const GlobalCursor = ({ variant }: { variant: CursorVariant }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const cursorX = useMotionValue(-100);
