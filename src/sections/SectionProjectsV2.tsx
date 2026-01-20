@@ -27,7 +27,7 @@ export const SectionProjectsV2 = () => {
     <section
       id="projects"
       ref={sectionRef}
-      className="relative w-full"
+      className="relative w-full scroll-mt-24"
       style={{
         height: slideHeight * projects.length + STICKY_OFFSET,
       }}
@@ -36,7 +36,7 @@ export const SectionProjectsV2 = () => {
         <div className="w-full min-h-full gap-0 flex flex-col md:flex-row">
           {/* LEFT CONTAINER */}
           <div className="p-6 flex flex-1 flex-col justify-between">
-            <h2 className="text-9xl font-bold text-neutral-950">
+            <h2 className="text-7xl font-bold text-neutral-950">
               RECENT WORKS
             </h2>
 

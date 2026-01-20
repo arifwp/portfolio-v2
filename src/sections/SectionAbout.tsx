@@ -1,16 +1,18 @@
 "use client";
 
+import AnimatedLanyard from "@/components/AnimatedLanyard";
 import { AnimatedScrollText } from "@/components/AnimatedScrollText";
 import { ButtonAnimatedHover } from "@/components/ButtonAnimatedHover";
 import { skills } from "@/constants/skill";
 import { ArrowUpRightIcon } from "@heroicons/react/24/outline";
-import Image from "next/image";
 
 export const SectionAbout = () => {
   return (
-    <section id="about" className="w-full min-h-[calc(100dvh-96px)] p-6">
-      <div className="w-full h-full gap-12 flex flex-col lg:flex-row items-center lg:items-start">
-        <div className="relative w-64 sm:w-100 xl:w-120 h-150 min-h-100 rounded-xl lg:rounded-2xl aspect-9/14 overflow-hidden">
+    <section id="about" className="w-full p-6 relative scroll-mt-24">
+      <AnimatedLanyard />
+
+      <div className="w-full h-full gap-4 flex flex-col lg:flex-row items-center lg:items-start">
+        {/* <div className="relative w-64 sm:w-100 xl:w-120 h-150 min-h-100 rounded-xl lg:rounded-2xl aspect-9/14 overflow-hidden">
           <Image
             src={"/assets/images/profile.webp"}
             fill
@@ -18,7 +20,11 @@ export const SectionAbout = () => {
             objectFit="cover"
             objectPosition="top"
           />
-        </div>
+        </div> */}
+
+        <div className="hidden lg:flex w-64 sm:w-100 xl:w-120 h-150 min-h-100" />
+
+        {/* <AnimatedLanyard /> */}
 
         {/* RIGHT CONTAINER */}
         <div className="gap-6 lg:gap-12 flex flex-1 flex-col">
