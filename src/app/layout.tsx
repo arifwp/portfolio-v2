@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
-import { Inter, Instrument_Sans } from "next/font/google";
-import "./globals.css";
-import { CursorProvider } from "@/components/GlobalCursor";
+import { ClientLayout } from "@/components/ClientLayout";
 import { ContainerSmoothScroll } from "@/components/containers/ContainerSmoothScroll";
+import type { Metadata } from "next";
+import { Instrument_Sans, Inter } from "next/font/google";
+import { CursorProvider } from "./CursorProvider";
+import "./globals.css";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -30,7 +31,9 @@ export default function RootLayout({
         className={`${inter.variable} ${instrumentSans.variable} antialiased`}
       >
         <CursorProvider>
-          <ContainerSmoothScroll>{children}</ContainerSmoothScroll>
+          <ContainerSmoothScroll>
+            <ClientLayout>{children}</ClientLayout>
+          </ContainerSmoothScroll>
         </CursorProvider>
       </body>
     </html>

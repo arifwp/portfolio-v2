@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 interface Menu {
   id: number;
@@ -33,46 +34,54 @@ export const menuItems: Menu[] = [
 ];
 
 export const Navbar = () => {
-  return (
-    <nav className="fixed top-0 w-full h-24 p-6 bg-white flex flex-row items-center justify-between z-999">
-      <motion.h2
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="text-2xl font-bold"
-      >
-        PORTFOLIO
-      </motion.h2>
+  const [showNavbarContent, setShowNavbarContent] = useState(false);
 
-      <motion.div
-        initial="hidden"
-        animate="show"
-        variants={{
-          hidden: {},
-          show: {
-            transition: { staggerChildren: 0.1, delayChildren: 0.1 },
-          },
-        }}
-        className="gap-4 flex-row hidden sm:flex"
-      >
-        {menuItems.map((item) => (
-          <motion.div
-            key={item.id}
-            variants={{
-              hidden: { y: -100 },
-              show: { y: 0 },
-            }}
-            transition={{
-              duration: 0.7,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          >
-            <Link href={item.href} className="text-sm">
-              <p>{item.name}</p>
-            </Link>
-          </motion.div>
-        ))}
-      </motion.div>
+  useEffect(() => {
+    const menuTimer = setTimeout(() => {
+      setShowNavbarContent(true);
+    }, 500);
+
+    return () => {
+      clearTimeout(menuTimer);
+    };
+  }, []);
+
+  return (
+    <nav className="fixed top-0 w-full p-6 h-18 bg-white flex flex-row items-center justify-between z-[998]">
+      <h2 className="text-2xl font-bold leading-none">PORTFOLIO</h2>
+
+      {/* Menu items */}
+      {showNavbarContent && (
+        <motion.div
+          initial="hidden"
+          animate="show"
+          variants={{
+            hidden: {},
+            show: {
+              transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+            },
+          }}
+          className="gap-4 flex-row hidden sm:flex"
+        >
+          {menuItems.map((item) => (
+            <motion.div
+              key={item.id}
+              variants={{
+                hidden: { y: -100, opacity: 0 },
+                show: { y: 0, opacity: 1 },
+              }}
+              transition={{
+                duration: 0.7,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
+              <Link href={item.href} className="text-lg">
+                {item.name}
+              </Link>
+            </motion.div>
+          ))}
+        </motion.div>
+      )}
     </nav>
   );
 };
