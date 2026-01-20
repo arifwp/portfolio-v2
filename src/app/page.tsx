@@ -10,8 +10,6 @@ export default function Home() {
 
       <SectionAbout />
 
-      {/* <SectionProjects /> */}
-
       <SectionProjectsV2 />
     </ContainerLayout>
   );
