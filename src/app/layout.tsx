@@ -1,14 +1,17 @@
+import { ClientLayout } from "@/components/ClientLayout";
+import { ContainerSmoothScroll } from "@/components/containers/ContainerSmoothScroll";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Instrument_Sans, Inter } from "next/font/google";
+import { CursorProvider } from "./CursorProvider";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const instrumentSans = Instrument_Sans({
+  variable: "--font-instrument-sans",
   subsets: ["latin"],
 });
 
@@ -19,15 +22,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} ${instrumentSans.variable} antialiased`}
       >
-        {children}
+        <CursorProvider>
+          <ContainerSmoothScroll>
+            <ClientLayout>{children}</ClientLayout>
+          </ContainerSmoothScroll>
+        </CursorProvider>
       </body>
     </html>
   );
