@@ -1,3 +1,4 @@
+import { PageProjectDetail } from "@/components/page/PageProjectDetail";
 import { Project, projects } from "@/constants/project";
 import { notFound } from "next/navigation";
 
@@ -14,5 +15,5 @@ export default async function ProjectDetailPage({
     notFound();
   }
 
-  return <div>{data.title}</div>;
+  return <PageProjectDetail data={data} />;
 }

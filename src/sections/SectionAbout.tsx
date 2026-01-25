@@ -4,7 +4,7 @@ import AnimatedLanyard from "@/components/AnimatedLanyard";
 import { AnimatedScrollText } from "@/components/AnimatedScrollText";
 import { ButtonAnimatedHover } from "@/components/ButtonAnimatedHover";
 import { skills } from "@/constants/skill";
-import { ArrowUpRightIcon } from "@heroicons/react/24/outline";
+import { ArrowUpRight } from "lucide-react";
 
 export const SectionAbout = () => {
   return (
@@ -28,10 +28,7 @@ export const SectionAbout = () => {
 
         {/* RIGHT CONTAINER */}
         <div className="gap-6 lg:gap-12 flex flex-1 flex-col">
-          <AnimatedScrollText
-            text="I’m Arif, a full-stack engineer who blends engineering precision with visual sensitivity."
-            className="text-5xl xl:text-7xl font-semibold leading-none"
-          />
+          <AnimatedScrollText />
 
           <div className="w-full gap-4 flex flex-col">
             <p className="font-medium text-base">Focus & Expertise</p>
@@ -40,7 +37,7 @@ export const SectionAbout = () => {
               {skills.map((item) => (
                 <div
                   key={item.id}
-                  className="py-2 px-3 bg-neutral-100 rounded-full text-xs"
+                  className="py-2 px-3 bg-neutral-100 rounded-full text-md"
                 >
                   {item.name}
                 </div>
@@ -50,7 +47,7 @@ export const SectionAbout = () => {
 
           <ButtonAnimatedHover
             title="Download CV"
-            iconEnd={<ArrowUpRightIcon className="size-5" />}
+            iconEnd={<ArrowUpRight size={24} />}
           />
         </div>
       </div>

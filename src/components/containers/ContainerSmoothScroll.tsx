@@ -26,6 +26,31 @@ export const ContainerSmoothScroll = ({
 
     lenisRef.current = lenis;
 
+    // lenis.on("scroll", () => {
+    //   const aboutSection = document.getElementById("about");
+    //   if (!aboutSection) return;
+
+    //   const isDesktop = window.innerWidth >= 1024;
+    //   if (!isDesktop) return;
+
+    //   const rect = aboutSection.getBoundingClientRect();
+    //   const windowHeight = window.innerHeight;
+
+    //   // Cek apakah scroll position ada di section about
+    //   const isInAboutSection =
+    //     rect.top <= windowHeight * 0.5 && rect.bottom >= windowHeight * 0.5;
+
+    //   if (isInAboutSection) {
+    //     // Perlambat scroll di section about
+    //     lenis.options.duration = 5.5; // Lebih lambat
+    //     lenis.options.wheelMultiplier = 1; // Lebih smooth
+    //   } else {
+    //     // Kecepatan normal di section lain
+    //     lenis.options.duration = 1.5;
+    //     lenis.options.wheelMultiplier = 0.5;
+    //   }
+    // });
+
     // Animation frame loop
     function raf(time: number) {
       lenis.raf(time);

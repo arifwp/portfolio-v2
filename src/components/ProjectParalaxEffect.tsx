@@ -1,10 +1,10 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
 import { projects } from "@/constants/project";
+import { useCursor } from "@/hooks/useCursor";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import { useCursor } from "@/components/GlobalCursor";
+import { useRef } from "react";
 
 export const ProjectParalaxEffect = ({
   project,
@@ -21,14 +21,12 @@ export const ProjectParalaxEffect = ({
     offset: ["start start", "end start"],
   });
 
-  // Parallax effect untuk image - bergerak lebih lambat dari scroll
+  // Parallax effect
   const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  // const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0.3]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
   // Text animations
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-  // const textOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7], [1, 1, 0]);
 
   return (
     <div
@@ -54,7 +52,7 @@ export const ProjectParalaxEffect = ({
             quality={75}
           />
 
-          {/* Gradient Overlay */}
+          {/* Overlay */}
           <div className="absolute inset-0 bg-black/60 z-10" />
         </motion.div>
       </motion.div>

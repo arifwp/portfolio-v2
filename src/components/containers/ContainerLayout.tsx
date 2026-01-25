@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { Navbar } from "../Navbar";
+import { MobileNavbar } from "../MobileNavbar";
 
 export const ContainerLayout = ({
   children,
@@ -9,11 +10,13 @@ export const ContainerLayout = ({
   className?: string;
 }) => {
   return (
-    <div className={clsx("w-full", className)}>
+    <div className={clsx("w-full relative", className)}>
       <Navbar />
 
       {/* Main  */}
       <main className="w-full">{children}</main>
+
+      <MobileNavbar />
 
       {/* Footer */}
       {/* <footer></footer> */}

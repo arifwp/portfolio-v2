@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 interface Menu {
@@ -13,23 +13,18 @@ interface Menu {
 export const menuItems: Menu[] = [
   {
     id: 1,
-    name: "Home",
-    href: "/",
+    name: "About",
+    href: `${process.env.NEXT_PUBLIC_FRONTEND_URL}#about`,
   },
   {
     id: 2,
-    name: "About",
-    href: "#about",
+    name: "Projects",
+    href: `${process.env.NEXT_PUBLIC_FRONTEND_URL}#projects`,
   },
   {
     id: 3,
-    name: "Projects",
-    href: "#projects",
-  },
-  {
-    id: 4,
     name: "Contact",
-    href: "#contact",
+    href: `${process.env.NEXT_PUBLIC_FRONTEND_URL}#contact`,
   },
 ];
 
@@ -47,8 +42,10 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <nav className="fixed top-0 w-full p-6 h-18 bg-white flex flex-row items-center justify-between z-[998]">
-      <h2 className="text-2xl font-bold leading-none">PORTFOLIO</h2>
+    <nav className="fixed top-0 w-full px-6 h-18 bg-white flex flex-row items-center justify-between z-[998]">
+      <Link href={"/"} className="text-2xl font-bold leading-none">
+        PORTFOLIO
+      </Link>
 
       {/* Menu items */}
       {showNavbarContent && (
@@ -75,7 +72,7 @@ export const Navbar = () => {
                 ease: [0.22, 1, 0.36, 1],
               }}
             >
-              <Link href={item.href} className="text-lg">
+              <Link href={item.href} className="text-sm lg:text-lg">
                 {item.name}
               </Link>
             </motion.div>

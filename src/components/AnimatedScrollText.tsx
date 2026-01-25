@@ -4,12 +4,10 @@ import { useScroll } from "framer-motion";
 import { useRef } from "react";
 import { AnimatedCharacter } from "./AnimatedCharacter";
 
-interface Props {
-  text: string;
-  className?: string;
-}
+const TEXT =
+  "I’m Arif, a full-stack engineer who blends engineering precision with visual sensitivity.";
 
-export const AnimatedScrollText = ({ text, className }: Props) => {
+export const AnimatedScrollText = () => {
   const ref = useRef<HTMLParagraphElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -17,10 +15,13 @@ export const AnimatedScrollText = ({ text, className }: Props) => {
     offset: ["start 0.8", "start 0.3"],
   });
 
-  const letters = text.split("");
+  const letters = TEXT.split("");
 
   return (
-    <p ref={ref} className={`flex flex-wrap ${className}`}>
+    <p
+      ref={ref}
+      className={`flex flex-wrap text-6xl xl:text-7xl font-semibold leading-none`}
+    >
       {letters.map((char, i) => (
         <AnimatedCharacter
           key={i}
