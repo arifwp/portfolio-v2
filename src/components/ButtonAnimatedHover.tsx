@@ -1,24 +1,30 @@
 "use client";
 
 import clsx from "clsx";
-import { motion } from "framer-motion";
+import { HTMLMotionProps, motion } from "framer-motion";
 
-interface Props {
+interface Props extends HTMLMotionProps<"button"> {
   title: string;
   iconEnd?: React.ReactNode;
   className?: string;
 }
 
-export const ButtonAnimatedHover = ({ title, iconEnd, className }: Props) => {
+export const ButtonAnimatedHover = ({
+  title,
+  iconEnd,
+  className,
+  ...rest
+}: Props) => {
   return (
-    <motion.div
+    <motion.button
       whileHover="hover"
       initial="rest"
       animate="rest"
       className={clsx(
-        "relative overflow-hidden w-fit px-12 lg:px-6 py-3 gap-2 rounded-sm border border-neutral-400 font-bold text-md flex items-center pointer-auto",
+        "relative overflow-hidden w-fit px-12 lg:px-6 py-3 gap-2 rounded-sm border border-neutral-400 font-bold text-md flex items-center cursor-pointer",
         className,
       )}
+      {...rest}
     >
       {/* Background layer */}
       <motion.div
@@ -53,6 +59,6 @@ export const ButtonAnimatedHover = ({ title, iconEnd, className }: Props) => {
       >
         {title} {iconEnd && iconEnd}
       </motion.span>
-    </motion.div>
+    </motion.button>
   );
 };

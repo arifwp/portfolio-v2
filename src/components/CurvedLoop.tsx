@@ -1,174 +1,146 @@
 "use client";
 
-import {
-  FC,
-  PointerEvent,
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { FC, PointerEvent, useEffect, useId, useRef, useState } from "react";
 
 interface CurvedLoopProps {
-  marqueeText?: string;
-  speed?: number;
   className?: string;
-  curveAmount?: number;
   direction?: "left" | "right";
   interactive?: boolean;
 }
 
-const CurvedLoop: FC<CurvedLoopProps> = ({
-  marqueeText = "",
-  speed = 2,
-  className,
-  curveAmount = 400,
-  direction = "left",
-  interactive = true,
-}) => {
-  const text = useMemo(() => {
-    const hasTrailing = /\s|\u00A0$/.test(marqueeText);
-    return (
-      (hasTrailing ? marqueeText.replace(/\s+$/, "") : marqueeText) + "\u00A0"
-    );
-  }, [marqueeText]);
+const TEXT = "Explore Other Projects ✦ Portfolio Of Arif Prasetyo ✦";
+const SPEED = 1.1;
+const CURVE_AMOUNT = 400;
+const DIRECTION: "left" | "right" = "right";
+const INTERACTIVE = true;
 
+const CurvedLoop: FC<CurvedLoopProps> = () => {
   const measureRef = useRef<SVGTextElement | null>(null);
   const textPathRef = useRef<SVGTextPathElement | null>(null);
-  const pathRef = useRef<SVGPathElement | null>(null);
-  const [spacing, setSpacing] = useState(0);
-  const [offset, setOffset] = useState(0);
-  const uid = useId();
-  const pathId = `curve-${uid}`;
-  const pathD = `M-100,40 Q500,${40 + curveAmount} 1540,40`;
 
+  /** === ANIMATION STATE (IMPERATIVE) === */
+  const offsetRef = useRef(0);
   const dragRef = useRef(false);
   const lastXRef = useRef(0);
-  const dirRef = useRef<"left" | "right">(direction);
-  const velRef = useRef(0);
+  const velocityRef = useRef(0);
+  const directionRef = useRef<"left" | "right">(DIRECTION);
 
-  const textLength = spacing;
-  const totalText = textLength
-    ? Array(Math.ceil(1800 / textLength) + 2)
-        .fill(text)
-        .join("")
-    : text;
+  /** === REACT STATE (STATIC) === */
+  const [spacing, setSpacing] = useState(0);
+
+  const uid = useId();
+  const pathId = `curve-${uid}`;
+  const pathD = `M-100,40 Q500,${40 + CURVE_AMOUNT} 1540,40`;
+
   const ready = spacing > 0;
 
-  useEffect(() => {
-    if (measureRef.current)
-      setSpacing(measureRef.current.getComputedTextLength());
-  }, [text, className]);
+  const totalText = spacing
+    ? Array(Math.ceil(1800 / spacing) + 2)
+        .fill(TEXT)
+        .join("")
+    : TEXT;
 
+  /** === MEASURE TEXT ONCE === */
   useEffect(() => {
-    if (!spacing) return;
-    if (textPathRef.current) {
-      const initial = -spacing;
-      textPathRef.current.setAttribute("startOffset", initial + "px");
-      setOffset(initial);
-    }
+    if (!measureRef.current) return;
+    setSpacing(measureRef.current.getComputedTextLength());
+  }, []);
+
+  /** === INIT OFFSET ONCE SPACING IS READY === */
+  useEffect(() => {
+    if (!spacing || !textPathRef.current) return;
+
+    const initial = -spacing;
+    offsetRef.current = initial;
+    textPathRef.current.setAttribute("startOffset", `${initial}px`);
   }, [spacing]);
 
+  /** === RAF LOOP === */
   useEffect(() => {
-    if (!spacing || !ready) return;
-    let frame = 0;
-    const step = () => {
-      if (!dragRef.current && textPathRef.current) {
-        const delta = dirRef.current === "right" ? speed : -speed;
-        const currentOffset = parseFloat(
-          textPathRef.current.getAttribute("startOffset") || "0",
-        );
-        let newOffset = currentOffset + delta;
-        const wrapPoint = spacing;
-        if (newOffset <= -wrapPoint) newOffset += wrapPoint;
-        if (newOffset > 0) newOffset -= wrapPoint;
-        textPathRef.current.setAttribute("startOffset", newOffset + "px");
-        setOffset(newOffset);
-      }
-      frame = requestAnimationFrame(step);
-    };
-    frame = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(frame);
-  }, [spacing, speed, ready]);
+    if (!ready || !textPathRef.current) return;
 
+    let frameId: number;
+
+    const tick = () => {
+      if (!dragRef.current && textPathRef.current) {
+        const delta = directionRef.current === "right" ? SPEED : -SPEED;
+
+        let next = offsetRef.current + delta;
+
+        if (next <= -spacing) next += spacing;
+        if (next > 0) next -= spacing;
+
+        offsetRef.current = next;
+        textPathRef.current.setAttribute("startOffset", `${next}px`);
+      }
+
+      frameId = requestAnimationFrame(tick);
+    };
+
+    frameId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frameId);
+  }, [ready, spacing]);
+
+  /** === POINTER EVENTS === */
   const onPointerDown = (e: PointerEvent) => {
-    if (!interactive) return;
+    if (!INTERACTIVE) return;
     dragRef.current = true;
     lastXRef.current = e.clientX;
-    velRef.current = 0;
+    velocityRef.current = 0;
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
   };
 
   const onPointerMove = (e: PointerEvent) => {
-    if (!interactive || !dragRef.current || !textPathRef.current) return;
+    if (!INTERACTIVE || !dragRef.current || !textPathRef.current) return;
+
     const dx = e.clientX - lastXRef.current;
     lastXRef.current = e.clientX;
-    velRef.current = dx;
-    const currentOffset = parseFloat(
-      textPathRef.current.getAttribute("startOffset") || "0",
-    );
-    let newOffset = currentOffset + dx;
-    const wrapPoint = spacing;
-    if (newOffset <= -wrapPoint) newOffset += wrapPoint;
-    if (newOffset > 0) newOffset -= wrapPoint;
-    textPathRef.current.setAttribute("startOffset", newOffset + "px");
-    setOffset(newOffset);
+    velocityRef.current = dx;
+
+    let next = offsetRef.current + dx;
+
+    if (next <= -spacing) next += spacing;
+    if (next > 0) next -= spacing;
+
+    offsetRef.current = next;
+    textPathRef.current.setAttribute("startOffset", `${next}px`);
   };
 
-  const endDrag = () => {
-    if (!interactive) return;
+  const onPointerUp = () => {
+    if (!INTERACTIVE) return;
     dragRef.current = false;
-    dirRef.current = velRef.current > 0 ? "right" : "left";
+    directionRef.current = velocityRef.current > 0 ? "right" : "left";
   };
-
-  // const cursorStyle = interactive
-  //   ? dragRef.current
-  //     ? "grabbing"
-  //     : "grab"
-  //   : "auto";
-  const cursorStyle = "auto";
 
   return (
     <div
-      className="h-fit flex items-center justify-center w-full"
-      style={{ visibility: ready ? "visible" : "hidden", cursor: cursorStyle }}
+      className="flex w-full items-center justify-center"
+      style={{ visibility: ready ? "visible" : "hidden" }}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
-      onPointerUp={endDrag}
-      onPointerLeave={endDrag}
+      onPointerUp={onPointerUp}
+      onPointerLeave={onPointerUp}
     >
       <svg
-        className="select-none w-full overflow-visible block aspect-[100/12] text-[6rem] font-bold uppercase leading-none"
+        className="select-none w-full overflow-visible block aspect-[100/12] text-[6rem] font-bold uppercase"
         viewBox="0 0 1440 120"
       >
+        {/* hidden measurement */}
         <text
           ref={measureRef}
           xmlSpace="preserve"
-          style={{ visibility: "hidden", opacity: 0, pointerEvents: "none" }}
+          style={{ visibility: "hidden", pointerEvents: "none" }}
         >
-          {text}
+          {TEXT}
         </text>
+
         <defs>
-          <path
-            ref={pathRef}
-            id={pathId}
-            d={pathD}
-            fill="none"
-            stroke="transparent"
-          />
+          <path id={pathId} d={pathD} fill="none" />
         </defs>
+
         {ready && (
-          <text
-            xmlSpace="preserve"
-            className={`fill-neutral-950 ${className ?? ""}`}
-          >
-            <textPath
-              ref={textPathRef}
-              href={`#${pathId}`}
-              startOffset={offset + "px"}
-              xmlSpace="preserve"
-            >
+          <text className="fill-neutral-950">
+            <textPath ref={textPathRef} href={`#${pathId}`}>
               {totalText}
             </textPath>
           </text>
